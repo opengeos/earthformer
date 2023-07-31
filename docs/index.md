@@ -5,7 +5,7 @@
 
 **A Python package for Earthformer**
 
--   Free software: MIT license
+-   Free software: Apache Software License 2.0
 -   Documentation: <https://opengeos.github.io/earthformer>
 
 ## Introduction
