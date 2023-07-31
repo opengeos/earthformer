@@ -11,7 +11,7 @@
 
 ## Introduction
 
-The `earthformer` Python package turns the [amazon-science/earth-forecasting-transformer](https://github.com/amazon-science/earth-forecasting-transformer) repository into a Python package, making it easier to install and use. To learn more about Earthformer, please refer to the NeurIPS 2022 paper: [Earthformer: Exploring Space-Time Transformers for Earth System Forecasting](https://www.amazon.science/publications/earthformer-exploring-space-time-transformers-for-earth-system-forecasting). Credits to the authors and their [repository](https://github.com/amazon-science/earth-forecasting-transformer) for the original implementation.
+This repository turns the [amazon-science/earth-forecasting-transformer](https://github.com/amazon-science/earth-forecasting-transformer) repository into a Python package, making it easier to install and use. To learn more about Earthformer, please refer to the NeurIPS 2022 paper: [Earthformer: Exploring Space-Time Transformers for Earth System Forecasting](https://www.amazon.science/publications/earthformer-exploring-space-time-transformers-for-earth-system-forecasting). Credits to the authors and their [repository](https://github.com/amazon-science/earth-forecasting-transformer) for the original implementation.
 
 ## Installation
 
