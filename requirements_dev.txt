@@ -1,1 +1,15 @@
+absl-py
+awscli
+contextvars
+fairscale>=0.3.0
+fvcore>=0.1.5
+graphviz
+jsonlines
 javalang>=0.13.0
+networkx
+pyarrow>=3
+pympler
+protobuf
+timm
+yacs>=0.1.8
+unidiff
