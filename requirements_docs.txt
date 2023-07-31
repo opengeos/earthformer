@@ -1,4 +1,5 @@
 bump2version
+codespell
 coverage
 flake8
 ipykernel
