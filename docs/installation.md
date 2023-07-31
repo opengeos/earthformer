@@ -1,21 +1,29 @@
 # Installation
 
-## Stable release
+## Install from PyPI
 
-To install earthformer, run this command in your terminal:
+The `earthformer` package is available on PyPI. To install it, run:
 
-```
+```bash
 pip install earthformer
 ```
 
-This is the preferred method to install earthformer, as it will always install the most recent stable release.
+Earthformer has several optional dependencies. It is recommended to create a new conda environment and install the dependencies with conda:
 
-If you don't have [pip](https://pip.pypa.io) installed, this [Python installation guide](http://docs.python-guide.org/en/latest/starting/installation/) can guide you through the process.
+```bash
+conda create -n earthformer python=3.10
+conda activate earthformer
+conda install -c conda-forge mamba
+mamba install -c conda-forge pytorch torchvision pytorch-lightning==1.7.7
+mamba install -c conda-forge nvidia-apex omegaconf
+mamba install -c conda-forge xarray netcdf4 opencv
+pip install earthnet earthformer
+```
 
 ## From sources
 
 To install earthformer from sources, run this command in your terminal:
 
-```
+```bash
 pip install git+https://github.com/opengeos/earthformer
 ```
