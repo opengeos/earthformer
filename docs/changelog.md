@@ -1,11 +1,9 @@
 # Changelog
 
-## v0.0.1 - Date
+## v0.0.1 - Jul 31, 2023
 
-**Improvement**:
+Added Earthformer source code
 
--   TBD
+## v0.0.1 - Jul 30, 2023
 
-**New Features**:
-
--   TBD
+Initial release
