@@ -2,7 +2,7 @@
 
 import os
 import pkg_resources
-
+from .common import *
 
 def get_pkg_dir(name="earthformer"):
     pkg_dir = os.path.dirname(pkg_resources.resource_filename(name, name + ".py"))
