@@ -80,7 +80,7 @@ nav:
     - Changelog: changelog.md
     - Report Issues: https://github.com/opengeos/earthformer/issues
     - Examples:
-          - examples/intro.ipynb
+          - examples/earthnet2021.ipynb
     - API Reference:
           - earthformer module: earthformer.md
           - common module: common.md

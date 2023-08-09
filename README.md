@@ -2,6 +2,8 @@
 
 [![image](https://img.shields.io/pypi/v/earthformer.svg)](https://pypi.python.org/pypi/earthformer)
 [![image](https://img.shields.io/conda/vn/conda-forge/earthformer.svg)](https://anaconda.org/conda-forge/earthformer)
+[![Open In Studio Lab](https://studiolab.sagemaker.aws/studiolab.svg)](https://studiolab.sagemaker.aws/import/github/opengeos/earthformer/blob/main/docs/examples/earthnet2021.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/opengeos/earthformer/blob/main/docs/examples/earthnet2021.ipynb)
 
 **A Python package for Earth forecasting transformer**
 
