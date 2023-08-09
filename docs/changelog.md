@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.0 - Aug 9, 2023
+
+Add scripts and notebook (#4)
+
 ## v0.0.4 - Jul 31, 2023
 
 Made more dependencies optional

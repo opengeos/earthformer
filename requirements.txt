@@ -12,3 +12,5 @@ omegaconf
 matplotlib
 boto3
 botocore
+earthnet
+leafmap
