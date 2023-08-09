@@ -5,7 +5,7 @@
 
 **A Python package for Earth forecasting transformer**
 
--   Free software: Apache Software License 2.0
+-   Free software: Apache License, Version 2.0 (Apache-2.0)
 -   Documentation: <https://opengeos.github.io/earthformer>
 
 ## Introduction
