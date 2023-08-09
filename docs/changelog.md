@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.1.1 - Aug 9, 2023
+
+Added scripts to PyPI distribution (#5)
+
 ## v0.1.0 - Aug 9, 2023
 
 Add scripts and notebook (#4)
