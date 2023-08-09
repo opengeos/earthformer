@@ -1,5 +1,9 @@
 # Changelog
 
+## v0.2.0 - Aug 9, 2023
+
+Added functions to notebook example (#5)
+
 ## v0.1.1 - Aug 9, 2023
 
 Added scripts to PyPI distribution (#5)
