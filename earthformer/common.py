@@ -4,6 +4,7 @@
 import os
 import tarfile
 import zipfile
+import numpy as np
 
 
 def github_raw_url(url):
@@ -186,3 +187,197 @@ def download_files(
             overwrite,
             subfolder,
         )
+
+
+def show_image(
+    source, figsize=(12, 10), cmap=None, axis="off", fig_args={}, show_args={}, **kwargs
+):
+    import cv2
+    import matplotlib.pyplot as plt
+
+    if isinstance(source, str):
+        if source.startswith("http"):
+            source = download_file(source)
+
+        if not os.path.exists(source):
+            raise ValueError(f"Input path {source} does not exist.")
+
+        source = cv2.imread(source)
+        source = cv2.cvtColor(source, cv2.COLOR_BGR2RGB)
+
+    plt.figure(figsize=figsize, **fig_args)
+    plt.imshow(source, cmap=cmap, **show_args)
+    plt.axis(axis)
+    plt.show(**kwargs)
+
+
+def save_geotiff(array, output_file, resolution=10, crs_epsg=3857, dtype=None):
+    import rasterio
+
+    # Define the spatial resolution
+    resolution = resolution
+
+    # Define the geotransformation parameters
+    xmin, ymin, xmax, ymax = (
+        0,
+        0,
+        resolution * array.shape[1],
+        resolution * array.shape[0],
+    )
+    transform = rasterio.transform.from_bounds(
+        xmin, ymin, xmax, ymax, array.shape[1], array.shape[0]
+    )
+
+    # Define the CRS
+    crs = rasterio.crs.CRS.from_epsg(crs_epsg)
+
+    if dtype is None:
+        dtype = array.dtype
+    if dtype == 'float16':
+        dtype == 'float32' 
+
+    # Write the array to a GeoTIFF file
+    with rasterio.open(
+        output_file,
+        'w',
+        driver='GTiff',
+        height=array.shape[0],
+        width=array.shape[1],
+        count=array.shape[2],
+        dtype=dtype,
+        crs=crs,
+        transform=transform,
+    ) as dst:
+        if array.ndim == 2:
+            dst.write(array, 1)
+        elif array.ndim == 3:
+            for i in range(array.shape[2]):
+                dst.write(array[:, :, i], i + 1)
+
+
+def array_to_image(
+    array, output, source=None, dtype=None, compress="deflate", **kwargs
+):
+    """Save a NumPy array as a GeoTIFF using the projection information from an existing GeoTIFF file.
+
+    Args:
+        array (np.ndarray): The NumPy array to be saved as a GeoTIFF.
+        output (str): The path to the output image.
+        source (str, optional): The path to an existing GeoTIFF file with map projection information. Defaults to None.
+        dtype (np.dtype, optional): The data type of the output array. Defaults to None.
+        compress (str, optional): The compression method. Can be one of the following: "deflate", "lzw", "packbits", "jpeg". Defaults to "deflate".
+    """
+
+    from PIL import Image
+
+    if isinstance(array, str) and os.path.exists(array):
+        array = cv2.imread(array)
+        array = cv2.cvtColor(array, cv2.COLOR_BGR2RGB)
+
+    if output.endswith(".tif") and source is not None:
+        with rasterio.open(source) as src:
+            crs = src.crs
+            transform = src.transform
+            if compress is None:
+                compress = src.compression
+
+        # Determine the minimum and maximum values in the array
+
+        min_value = np.min(array)
+        max_value = np.max(array)
+
+        if dtype is None:
+            # Determine the best dtype for the array
+            if min_value >= 0 and max_value <= 1:
+                dtype = np.float32
+            elif min_value >= 0 and max_value <= 255:
+                dtype = np.uint8
+            elif min_value >= -128 and max_value <= 127:
+                dtype = np.int8
+            elif min_value >= 0 and max_value <= 65535:
+                dtype = np.uint16
+            elif min_value >= -32768 and max_value <= 32767:
+                dtype = np.int16
+            else:
+                dtype = np.float64
+        else:
+            dtype = array.dtype
+            if dtype == 'float16':
+                dtype == 'float32'
+
+        # Convert the array to the best dtype
+        array = array.astype(dtype)
+
+        # Define the GeoTIFF metadata
+        if array.ndim == 2:
+            metadata = {
+                "driver": "GTiff",
+                "height": array.shape[0],
+                "width": array.shape[1],
+                "count": 1,
+                "dtype": array.dtype,
+                "crs": crs,
+                "transform": transform,
+            }
+        elif array.ndim == 3:
+            metadata = {
+                "driver": "GTiff",
+                "height": array.shape[0],
+                "width": array.shape[1],
+                "count": array.shape[2],
+                "dtype": array.dtype,
+                "crs": crs,
+                "transform": transform,
+            }
+
+        if compress is not None:
+            metadata["compress"] = compress
+        else:
+            raise ValueError("Array must be 2D or 3D.")
+
+        # Create a new GeoTIFF file and write the array to it
+        with rasterio.open(output, "w", **metadata) as dst:
+            if array.ndim == 2:
+                dst.write(array, 1)
+            elif array.ndim == 3:
+                for i in range(array.shape[2]):
+                    dst.write(array[:, :, i], i + 1)
+
+    else:
+        img = Image.fromarray(array)
+        img.save(output, **kwargs)
+
+
+def npz_to_geotiff(filename, out_dir=None, key=None, resolution=10, crs_epsg=3857):
+
+    output_base_name = os.path.splitext(os.path.basename(filename))[0]
+
+    if out_dir is None:
+        out_dir = os.path.dirname(filename)
+
+    # Load the NPZ file
+    data = np.load(filename)
+
+    # Get the keys from the NPZ file
+    keys = data.files
+
+    if key is None:
+        key = keys[0]
+
+    array = data[key]
+    # Get the number of files
+    num_files = array.shape[3]
+
+    # Calculate the padding width
+    padding_width = len(str(num_files))
+
+    # Save each slice of the array as a separate GeoTIFF file
+    for i in range(num_files):
+        # Generate the padded file index
+        padded_index = str(i).zfill(padding_width)
+
+        # Construct the output file name with padding
+        output_file = output_base_name + padded_index + '.tif'
+
+        # Save the array slice as a GeoTIFF file
+        save_geotiff(array[:, :, :3, i], output_file, resolution=resolution, crs_epsg=crs_epsg)
