@@ -3,6 +3,9 @@ __pycache__/
 private/
 *.py[cod]
 *$py.class
+docs/examples/datasets/**/*.*
+docs/examples/datasets/*
+docs/examples/experiments/**/*.*
 
 # C extensions
 *.so

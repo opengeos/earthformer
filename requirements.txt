@@ -14,3 +14,4 @@ boto3
 botocore
 earthnet
 leafmap
+torchmetrics<1.0.0
