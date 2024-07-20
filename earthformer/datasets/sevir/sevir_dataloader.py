@@ -58,7 +58,7 @@ SEVIR_LR_RAW_SEQ_LEN = 25
 
 class SEVIRDataLoader:
     r"""
-    DataLoader that loads SEVIR sequences, and spilts each event
+    DataLoader that loads SEVIR sequences, and splits each event
     into segments according to specified sequence length.
 
     Event Frames:
