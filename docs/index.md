@@ -30,3 +30,7 @@ conda activate earthformer
 conda install -c conda-forge mamba
 mamba install -c conda-forge earthformer
 ```
+
+## Disclaimer
+
+I am not the author of the original implementation. This repository is a Python package that wraps the original implementation into a package. If you have any questions about the original implementation, please refer to the [amazon-science/earth-forecasting-transformer](https://github.com/amazon-science/earth-forecasting-transformer). The original implementation is licensed under the Apache License, Version 2.0.
